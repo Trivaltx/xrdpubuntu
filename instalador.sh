@@ -6,46 +6,14 @@
 ##
 ##
 echo "## atualizando repositorios..."
-sudo apt -qq update -y
+apt -qq update -y
 echo "## instalando interface grafica..."
-sudo apt -qq install xubuntu-core^ -y
+apt -qq install xubuntu-core^ -y
 echo "## instalando demais programas/dependencias..."
-sudo apt -qq install xfce4 --no-install-recommends -y
-sudo apt -qq install xrdp xorg dbus-x11 x11-xserver-utils python3 python3-pip zip git ffmpeg thunar-archive-plugin firefox -y
+apt -qq install xfce4 --no-install-recommends -y
+apt -qq install xrdp xorg dbus-x11 x11-xserver-utils python3 python3-pip zip git ffmpeg thunar-archive-plugin firefox -y
 echo "## terminando as configurações..."
-sudo sed -i.bak '/fi/a #xrdp multiple users configuration \n xfce-session \n' /etc/xrdp/startwm.sh
-sudo ufw allow 3389/tcp
-sudo /etc/init.d/xrdp restart
+sed -i.bak '/fi/a #xrdp multiple users configuration \n xfce-session \n' /etc/xrdp/startwm.sh
+ufw allow 3389/tcp
+/etc/init.d/xrdp restart
 
-
-echo "## deseja instalar o google chrome? (o firefox já foi instalado)..."
-read -p "Selecione a opção [s/n]: " resposta
-case $resposta in
-	s)
-    echo "## instalando..."
-	wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-	sudo apt install ./google-chrome-stable_current_amd64.deb -y
-	sudo apt -f install -y
-	sudo rm -rf google-chrome-stable_current_amd64.deb
-	echo "## "
-	echo "## para utilizar o google chrome, voce precisará criar um novo usuario no sistema (google chrome nao abre no usuario root)"
-	echo "## "
-	;;
-	n)
-	echo "ok"
-	;;
-	esac
-
-
-echo "## ## finalizado"
-echo "## deseja reiniciar o sistema?"
-read -p "Selecione a opção [s/n]: " resposta
-case $resposta in
-	s)
-    echo "## reiniciando..."
-	sudo reboot
-	;;
-	n)
-    echo "## ok. flw"
-    exit;;
-esac
